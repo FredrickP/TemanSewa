@@ -4,6 +4,88 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+# TemanSewa
+
+**TemanSewa** adalah aplikasi mobile roommate matching yang membantu pengguna menemukan teman tinggal yang cocok berdasarkan lokasi, budget, rutinitas, dan gaya hidup.
+
+Aplikasi ini dirancang untuk perantau, mahasiswa, dan pekerja muda yang ingin mencari teman tinggal dengan proses yang lebih aman, nyaman, dan terarah.
+
+## Tujuan Aplikasi
+
+TemanSewa bukan hanya aplikasi pencarian kamar, tetapi fokus pada proses menemukan **roommate yang cocok** sebelum pengguna memutuskan untuk tinggal bersama.
+
+Fokus utama aplikasi:
+
+- Mencari roommate berdasarkan preferensi tinggal
+- Membantu pengguna mengenali calon roommate lebih awal
+- Mengurangi risiko ketidakcocokan saat tinggal bersama
+- Menyediakan alur kesepakatan tinggal bersama
+- Membangun pengalaman yang aman, serius, dan tidak terasa seperti dating app
+
+## Tech Stack
+
+- React Native CLI
+- TypeScript
+- iOS Native Project
+- React Navigation
+- React Native Safe Area Context
+
+## Current Status
+
+Project masih dalam tahap awal pengembangan.
+
+Progress saat ini:
+
+- Setup React Native CLI tanpa Expo
+- Setup struktur folder awal
+- Setup navigation dasar
+- Splash screen
+- Onboarding screen
+- Auth landing placeholder
+
+## Planned Features
+
+Beberapa fitur yang direncanakan:
+
+- Onboarding user
+- Register dan login
+- Setup preferensi lokasi
+- Setup preferensi budget
+- Setup preferensi gaya hidup
+- Roommate matching
+- Compatibility score
+- Guided chat
+- Roommate agreement
+- Trust and safety flow
+- Profile management
+
+## Project Structure
+
+```txt
+src/
+├── app/
+├── assets/
+│   ├── icons/
+│   └── images/
+├── components/
+├── features/
+│   ├── agreement/
+│   │   └── screens/
+│   ├── auth/
+│   │   └── screens/
+│   ├── home/
+│   │   └── screens/
+│   ├── matching/
+│   │   └── screens/
+│   ├── onboarding/
+│   │   └── screens/
+│   └── profile/
+│       └── screens/
+├── navigation/
+├── theme/
+├── types/
+└── utils/
+
 ## Step 1: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
