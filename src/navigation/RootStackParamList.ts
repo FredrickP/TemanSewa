@@ -10,4 +10,7 @@ export type RootStackParamList = {
   RoommateDetail: {
     roommateId: string;
   };
+  Chat: {
+    roommateId: string;
+  };
 };

@@ -86,7 +86,14 @@ export function RoommateDetailScreen({
       </ScrollView>
 
       <View style={styles.footer}>
-        <PrimaryButton title="Mulai Chat" onPress={() => {}} />
+        <PrimaryButton
+            title="Mulai Chat"
+            onPress={() =>
+                navigation.navigate('Chat', {
+                roommateId: roommate.id,
+                })
+            }
+        />
       </View>
     </SafeAreaView>
   );
