@@ -128,6 +128,19 @@ export function ChatScreen({navigation, route}: Props): React.JSX.Element {
           })}
         </ScrollView>
 
+      <View style={styles.agreementShortcut}>
+        <Text style={styles.agreementTitle}>Obrolan sudah cukup?</Text>
+        <Pressable
+          style={styles.agreementButton}
+          onPress={() =>
+            navigation.navigate('Agreement', {
+              roommateId: roommate.id,
+            })
+          }>
+          <Text style={styles.agreementButtonText}>Buat Agreement</Text>
+        </Pressable>
+      </View>
+
         <View style={styles.guidedSection}>
           <Text style={styles.guidedTitle}>Pertanyaan bantu</Text>
 
@@ -340,4 +353,32 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: colors.textPrimary,
   },
+  agreementShortcut: {
+  marginHorizontal: spacing.xl,
+  marginBottom: spacing.md,
+  borderRadius: 20,
+  backgroundColor: colors.muted,
+  padding: spacing.md,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+},
+agreementTitle: {
+  flex: 1,
+  fontSize: 14,
+  fontWeight: '800',
+  color: colors.textPrimary,
+  marginRight: spacing.md,
+},
+agreementButton: {
+  borderRadius: 999,
+  backgroundColor: colors.primary,
+  paddingHorizontal: spacing.md,
+  paddingVertical: spacing.sm,
+},
+agreementButtonText: {
+  fontSize: 12,
+  fontWeight: '900',
+  color: '#FFFFFF',
+},
 });

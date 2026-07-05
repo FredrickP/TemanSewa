@@ -13,6 +13,7 @@ import {PreferenceSetupScreen} from '../features/preference/screens/PreferenceSe
 import {LifestylePreferenceScreen} from '../features/preference/screens/LifestylePreferenceScreen';
 import {RoommateDetailScreen} from '../features/matching/screens/RoommateDetailScreen';
 import {ChatScreen} from '../features/matching/screens/ChatScreen';
+import {AgreementScreen} from '../features/matching/screens/AgreementScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -37,6 +38,7 @@ export function AppNavigator(): React.JSX.Element {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="RoommateDetail" component={RoommateDetailScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Agreement" component={AgreementScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

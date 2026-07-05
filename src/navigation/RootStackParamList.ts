@@ -13,4 +13,7 @@ export type RootStackParamList = {
   Chat: {
     roommateId: string;
   };
+  Agreement: {
+    roommateId: string;
+  };
 };
