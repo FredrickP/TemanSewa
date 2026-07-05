@@ -1,11 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {colors, spacing} from '../../../theme';
 import {PrimaryButton} from '../../../components/PrimaryButton';
+import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 
-export function AuthLandingScreen(): React.JSX.Element {
+type Props = NativeStackScreenProps<RootStackParamList, 'AuthLanding'>;
+
+export function AuthLandingScreen({navigation}: Props): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
@@ -20,9 +24,16 @@ export function AuthLandingScreen(): React.JSX.Element {
       </View>
 
       <View style={styles.footer}>
-        <PrimaryButton title="Buat Akun" onPress={() => {}} />
+        <PrimaryButton
+          title="Buat Akun"
+          onPress={() => navigation.navigate('Register')}
+        />
 
-        <Text style={styles.loginText}>Sudah punya akun? Masuk</Text>
+        <Text
+          style={styles.loginText}
+          onPress={() => navigation.navigate('Login')}>
+          Sudah punya akun? Masuk
+        </Text>
       </View>
     </SafeAreaView>
   );
