@@ -43,7 +43,7 @@ export function LifestylePreferenceScreen({
       pet,
     });
 
-    navigation.replace('Home');
+    navigation.replace('MainTabs');
   };
 
   return (

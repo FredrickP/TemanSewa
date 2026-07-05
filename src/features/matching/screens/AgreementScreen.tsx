@@ -72,7 +72,7 @@ export function AgreementScreen({
       selectedItems,
     });
 
-    navigation.replace('Home');
+    navigation.replace('MainTabs');
   };
 
   if (!roommate) {

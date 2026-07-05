@@ -6,7 +6,7 @@ export type RootStackParamList = {
   Register: undefined;
   PreferenceSetup: undefined;
   LifestylePreference: undefined;
-  Home: undefined;
+  MainTabs: undefined;
   RoommateDetail: {
     roommateId: string;
   };
@@ -16,4 +16,11 @@ export type RootStackParamList = {
   Agreement: {
     roommateId: string;
   };
+};
+
+export type MainTabParamList = {
+  Home: undefined;
+  Inbox: undefined;
+  Status: undefined;
+  Profile: undefined;
 };

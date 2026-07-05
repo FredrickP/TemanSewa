@@ -2,6 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../navigation/RootStackParamList';
+import {MainTabNavigator} from './MainTabNavigator';
 
 import {AuthLandingScreen} from '../features/auth/screens/AuthLandingScreen';
 import {OnboardingScreen} from '../features/onboarding/screens/OnboardingScreen';
@@ -35,7 +36,7 @@ export function AppNavigator(): React.JSX.Element {
           name="LifestylePreference"
           component={LifestylePreferenceScreen}
         />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="MainTabs" component={MainTabNavigator} />
         <Stack.Screen name="RoommateDetail" component={RoommateDetailScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
         <Stack.Screen name="Agreement" component={AgreementScreen} />
