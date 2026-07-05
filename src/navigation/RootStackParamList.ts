@@ -1,3 +1,12 @@
+import type {NavigatorScreenParams} from '@react-navigation/native';
+
+export type MainTabParamList = {
+  Home: undefined;
+  Inbox: undefined;
+  Status: undefined;
+  Profile: undefined;
+};
+
 export type RootStackParamList = {
   Splash: undefined;
   Onboarding: undefined;
@@ -6,7 +15,7 @@ export type RootStackParamList = {
   Register: undefined;
   PreferenceSetup: undefined;
   LifestylePreference: undefined;
-  MainTabs: undefined;
+  MainTabs: NavigatorScreenParams<MainTabParamList> | undefined;
   RoommateDetail: {
     roommateId: string;
   };
@@ -16,11 +25,4 @@ export type RootStackParamList = {
   Agreement: {
     roommateId: string;
   };
-};
-
-export type MainTabParamList = {
-  Home: undefined;
-  Inbox: undefined;
-  Status: undefined;
-  Profile: undefined;
 };
