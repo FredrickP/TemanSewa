@@ -40,14 +40,14 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
     selectedBudget.length > 0 &&
     selectedLocationType.length > 0;
 
-  const handleContinue = () => {
+    const handleContinue = () => {
     console.log('Preference setup', {
-      targetLocation,
-      selectedBudget,
-      selectedLocationType,
+        targetLocation,
+        selectedBudget,
+        selectedLocationType,
     });
 
-    navigation.replace('Home');
+  navigation.navigate('LifestylePreference');
   };
 
   return (

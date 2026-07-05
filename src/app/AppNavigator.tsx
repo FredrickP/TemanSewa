@@ -10,6 +10,8 @@ import {LoginScreen} from '../features/auth/screens/LoginScreen';
 import {RegisterScreen} from '../features/auth/screens/RegisterScreen';
 import {HomeScreen} from '../features/home/screens/HomeScreen';
 import {PreferenceSetupScreen} from '../features/preference/screens/PreferenceSetupScreen';
+import {LifestylePreferenceScreen} from '../features/preference/screens/LifestylePreferenceScreen';
+import {RoommateDetailScreen} from '../features/matching/screens/RoommateDetailScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -27,7 +29,12 @@ export function AppNavigator(): React.JSX.Element {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="PreferenceSetup" component={PreferenceSetupScreen} />
+        <Stack.Screen
+          name="LifestylePreference"
+          component={LifestylePreferenceScreen}
+        />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="RoommateDetail" component={RoommateDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

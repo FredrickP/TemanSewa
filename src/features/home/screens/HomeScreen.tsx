@@ -1,22 +1,46 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {MatchCard} from '../../matching/components/MatchCard';
+import {roommates} from '../../matching/data/roommates';
+import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 
-export function HomeScreen(): React.JSX.Element {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export function HomeScreen({navigation}: Props): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.badge}>TemanSewa</Text>
+      <FlatList
+        data={roommates}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <Text style={styles.greeting}>Halo, Fredrick 👋</Text>
 
-        <Text style={styles.title}>Rekomendasi roommate kamu siap</Text>
+            <Text style={styles.title}>Rekomendasi roommate buat kamu</Text>
 
-        <Text style={styles.subtitle}>
-          Nanti di halaman ini kita tampilkan daftar calon roommate,
-          compatibility score, lokasi incaran, dan preferensi gaya hidup.
-        </Text>
-      </View>
+            <Text style={styles.subtitle}>
+              Kami menemukan beberapa calon roommate yang cocok berdasarkan
+              lokasi, budget, dan gaya tinggal kamu.
+            </Text>
+          </View>
+        }
+        renderItem={({item}) => (
+          <MatchCard
+            roommate={item}
+            onPress={() =>
+              navigation.navigate('RoommateDetail', {
+                roommateId: item.id,
+              })
+            }
+          />
+        )}
+      />
     </SafeAreaView>
   );
 }
@@ -27,25 +51,23 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
     paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xxxl,
   },
-  badge: {
-    alignSelf: 'flex-start',
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: 999,
-    backgroundColor: colors.muted,
-    fontSize: 14,
-    fontWeight: '800',
-    color: colors.primary,
+  header: {
     marginBottom: spacing.xl,
   },
+  greeting: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: colors.primary,
+    marginBottom: spacing.md,
+  },
   title: {
-    fontSize: 34,
-    lineHeight: 42,
-    fontWeight: '800',
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: '900',
     color: colors.textPrimary,
   },
   subtitle: {
