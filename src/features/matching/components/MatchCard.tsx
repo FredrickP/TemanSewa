@@ -7,11 +7,15 @@ import type {Roommate} from '../screens/types/Roomate';
 type MatchCardProps = {
   roommate: Roommate;
   onPress: () => void;
+  isBookmarked?: boolean;
+  onToggleBookmark?: () => void;
 };
 
 export function MatchCard({
   roommate,
   onPress,
+  isBookmarked = false,
+  onToggleBookmark,
 }: MatchCardProps): React.JSX.Element {
   return (
     <Pressable
@@ -29,6 +33,26 @@ export function MatchCard({
           <Text style={styles.occupation}>{roommate.occupation}</Text>
         </View>
 
+        <Pressable
+          onPress={event => {
+            event.stopPropagation();
+            onToggleBookmark?.();
+          }}
+          style={[
+            styles.bookmarkButton,
+            isBookmarked && styles.bookmarkButtonActive,
+          ]}>
+          <Text
+            style={[
+              styles.bookmarkText,
+              isBookmarked && styles.bookmarkTextActive,
+            ]}>
+            {isBookmarked ? '★' : '☆'}
+          </Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.scoreRow}>
         <View style={styles.scoreBox}>
           <Text style={styles.score}>{roommate.compatibilityScore}%</Text>
           <Text style={styles.scoreLabel}>Match</Text>
@@ -101,8 +125,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
   },
+  bookmarkButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 16,
+    backgroundColor: colors.muted,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bookmarkButtonActive: {
+    backgroundColor: '#FFF4D6',
+  },
+  bookmarkText: {
+    fontSize: 26,
+    fontWeight: '900',
+    color: colors.textSecondary,
+  },
+  bookmarkTextActive: {
+    color: '#F5A400',
+  },
+  scoreRow: {
+    marginTop: spacing.md,
+    alignItems: 'flex-start',
+  },
   scoreBox: {
-    minWidth: 68,
     borderRadius: 18,
     backgroundColor: colors.muted,
     paddingVertical: spacing.sm,

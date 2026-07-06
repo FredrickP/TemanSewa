@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import type {MainTabParamList} from '../navigation/RootStackParamList';
 import {HomeScreen} from '../features/home/screens/HomeScreen';
+import {SavedScreen} from '../features/saved/screens/SavedScreen';
 import {InboxScreen} from '../features/inbox/screens/InboxScreen';
 import {StatusScreen} from '../features/status/screens/StatusScreen';
 import {ProfileScreen} from '../features/profile/screens/ProfileScreen';
@@ -35,6 +36,10 @@ export function MainTabNavigator(): React.JSX.Element {
 
           let icon = '🏠';
 
+          if (route.name === 'Saved') {
+            icon = '⭐️';
+          }
+
           if (route.name === 'Inbox') {
             icon = '💬';
           }
@@ -51,6 +56,7 @@ export function MainTabNavigator(): React.JSX.Element {
         },
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Saved" component={SavedScreen} />
       <Tab.Screen name="Inbox" component={InboxScreen} />
       <Tab.Screen name="Status" component={StatusScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />

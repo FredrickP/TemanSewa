@@ -11,14 +11,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import {MatchCard} from '../../matching/components/MatchCard';
 import {roommates} from '../../matching/data/roommates';
 import type {
   MainTabParamList,
   RootStackParamList,
 } from '../../../navigation/RootStackParamList';
-
 import {colors, spacing} from '../../../theme';
+import {useMatchContext} from '../../../store/MatchContext';
 
 type Props = CompositeScreenProps<
   BottomTabScreenProps<MainTabParamList, 'Home'>,
@@ -36,6 +37,9 @@ const budgetFilters = [
 export function HomeScreen({navigation}: Props): React.JSX.Element {
   const [search, setSearch] = useState('');
   const [selectedBudget, setSelectedBudget] = useState('Semua');
+
+  const {toggleBookmark, isBookmarked, bookmarkedRoommateIds} =
+    useMatchContext();
 
   const filteredRoommates = useMemo(() => {
     const keyword = search.trim().toLowerCase();
@@ -59,6 +63,7 @@ export function HomeScreen({navigation}: Props): React.JSX.Element {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={filteredRoommates}
+        extraData={bookmarkedRoommateIds}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}
@@ -131,6 +136,8 @@ export function HomeScreen({navigation}: Props): React.JSX.Element {
         renderItem={({item}) => (
           <MatchCard
             roommate={item}
+            isBookmarked={isBookmarked(item.id)}
+            onToggleBookmark={() => toggleBookmark(item.id)}
             onPress={() =>
               navigation.navigate('RoommateDetail', {
                 roommateId: item.id,
