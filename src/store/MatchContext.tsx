@@ -2,7 +2,7 @@ import React, {createContext, useContext, useMemo, useState} from 'react';
 
 type MatchStatus = 'Chatting' | 'Agreement Draft' | 'Agreement Created';
 
-type MatchProgress = {
+export type MatchProgress = {
   roommateId: string;
   status: MatchStatus;
   lastMessage: string;
@@ -11,10 +11,12 @@ type MatchProgress = {
 type MatchContextValue = {
   progresses: MatchProgress[];
   bookmarkedRoommateIds: string[];
+  deletedChatRoommateIds: string[];
   startChat: (roommateId: string, lastMessage?: string) => void;
   updateLastMessage: (roommateId: string, lastMessage: string) => void;
   setAgreementDraft: (roommateId: string) => void;
   setAgreementCreated: (roommateId: string) => void;
+  deleteChat: (roommateId: string) => void;
   toggleBookmark: (roommateId: string) => void;
   isBookmarked: (roommateId: string) => boolean;
 };
@@ -30,8 +32,13 @@ export function MatchProvider({children}: Props): React.JSX.Element {
   const [bookmarkedRoommateIds, setBookmarkedRoommateIds] = useState<string[]>(
     [],
   );
+  const [deletedChatRoommateIds, setDeletedChatRoommateIds] = useState<
+    string[]
+  >([]);
 
   const startChat = (roommateId: string, lastMessage = 'Chat dimulai') => {
+    setDeletedChatRoommateIds(prev => prev.filter(id => id !== roommateId));
+
     setProgresses(prev => {
       const exists = prev.find(item => item.roommateId === roommateId);
 
@@ -59,6 +66,8 @@ export function MatchProvider({children}: Props): React.JSX.Element {
   };
 
   const updateLastMessage = (roommateId: string, lastMessage: string) => {
+    setDeletedChatRoommateIds(prev => prev.filter(id => id !== roommateId));
+
     setProgresses(prev =>
       prev.map(item =>
         item.roommateId === roommateId
@@ -99,6 +108,16 @@ export function MatchProvider({children}: Props): React.JSX.Element {
     );
   };
 
+  const deleteChat = (roommateId: string) => {
+    setDeletedChatRoommateIds(prev => {
+      if (prev.includes(roommateId)) {
+        return prev;
+      }
+
+      return [...prev, roommateId];
+    });
+  };
+
   const toggleBookmark = (roommateId: string) => {
     setBookmarkedRoommateIds(prev => {
       if (prev.includes(roommateId)) {
@@ -117,14 +136,16 @@ export function MatchProvider({children}: Props): React.JSX.Element {
     () => ({
       progresses,
       bookmarkedRoommateIds,
+      deletedChatRoommateIds,
       startChat,
       updateLastMessage,
       setAgreementDraft,
       setAgreementCreated,
+      deleteChat,
       toggleBookmark,
       isBookmarked,
     }),
-    [progresses, bookmarkedRoommateIds],
+    [progresses, bookmarkedRoommateIds, deletedChatRoommateIds],
   );
 
   return (

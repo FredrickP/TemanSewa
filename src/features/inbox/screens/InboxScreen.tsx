@@ -1,31 +1,77 @@
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useMemo} from 'react';
+import {Alert, FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import type {CompositeScreenProps} from '@react-navigation/native';
+import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
+import {EmptyState} from '../../../components/EmptyState';
+import type {
+  MainTabParamList,
+  RootStackParamList,
+} from '../../../navigation/RootStackParamList';
+import {useMatchContext} from '../../../store/MatchContext';
 import {colors, spacing} from '../../../theme';
+import {roommates} from '../../matching/data/roommates';
 
-const chats = [
-  {
-    id: '1',
-    name: 'Raka',
-    lastMessage: 'Biasanya kamu tidur jam berapa?',
-    match: '92% match',
-  },
-  {
-    id: '2',
-    name: 'Dimas',
-    lastMessage: 'Kalau biaya internet nanti sharing ya?',
-    match: '86% match',
-  },
-];
+type Props = CompositeScreenProps<
+  BottomTabScreenProps<MainTabParamList, 'Inbox'>,
+  NativeStackScreenProps<RootStackParamList>
+>;
 
-export function InboxScreen(): React.JSX.Element {
+export function InboxScreen({navigation}: Props): React.JSX.Element {
+  const {progresses, deletedChatRoommateIds, deleteChat} = useMatchContext();
+
+  const inboxItems = useMemo(() => {
+    return progresses
+      .filter(progress => !deletedChatRoommateIds.includes(progress.roommateId))
+      .map(progress => {
+        const roommate = roommates.find(item => item.id === progress.roommateId);
+
+        if (!roommate) {
+          return null;
+        }
+
+        return {
+          roommate,
+          progress,
+        };
+      })
+      .filter(
+        (
+          item,
+        ): item is {
+          roommate: (typeof roommates)[number];
+          progress: (typeof progresses)[number];
+        } => item !== null,
+      );
+  }, [progresses, deletedChatRoommateIds]);
+
+  const handleDeleteChat = (roommateId: string, roommateName: string) => {
+    Alert.alert(
+      'Hapus chat?',
+      `Percakapan dengan ${roommateName} akan dihapus dari Inbox.`,
+      [
+        {
+          text: 'Batal',
+          style: 'cancel',
+        },
+        {
+          text: 'Hapus',
+          style: 'destructive',
+          onPress: () => deleteChat(roommateId),
+        },
+      ],
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={chats}
-        keyExtractor={item => item.id}
+        data={inboxItems}
+        keyExtractor={item => item.roommate.id}
         contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
             <Text style={styles.title}>Inbox</Text>
@@ -35,19 +81,55 @@ export function InboxScreen(): React.JSX.Element {
           </View>
         }
         renderItem={({item}) => (
-          <View style={styles.chatCard}>
+          <Pressable
+            style={({pressed}) => [
+              styles.chatCard,
+              pressed && styles.chatCardPressed,
+            ]}
+            onPress={() =>
+              navigation.navigate('Chat', {
+                roommateId: item.roommate.id,
+              })
+            }>
             <View style={styles.avatar}>
-              <Text style={styles.avatarText}>{item.name.charAt(0)}</Text>
+              <Text style={styles.avatarText}>
+                {item.roommate.name.charAt(0)}
+              </Text>
             </View>
 
             <View style={styles.chatInfo}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.message}>{item.lastMessage}</Text>
+              <Text style={styles.name}>{item.roommate.name}</Text>
+
+              <Text style={styles.message} numberOfLines={1}>
+                {item.progress.lastMessage}
+              </Text>
+
+              <Text style={styles.status}>{item.progress.status}</Text>
             </View>
 
-            <Text style={styles.match}>{item.match}</Text>
-          </View>
+            <View style={styles.rightInfo}>
+              <Text style={styles.match}>
+                {item.roommate.compatibilityScore}% match
+              </Text>
+
+              <Pressable
+                style={styles.deleteButton}
+                onPress={event => {
+                  event.stopPropagation();
+                  handleDeleteChat(item.roommate.id, item.roommate.name);
+                }}>
+                <Text style={styles.deleteText}>Hapus</Text>
+              </Pressable>
+            </View>
+          </Pressable>
         )}
+        ListEmptyComponent={
+          <EmptyState
+            icon="💬"
+            title="Belum ada chat"
+            description="Mulai chat dari detail roommate agar percakapan muncul di sini."
+          />
+        }
       />
     </SafeAreaView>
   );
@@ -59,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   content: {
+    flexGrow: 1,
     paddingHorizontal: spacing.xl,
     paddingTop: spacing.xl,
     paddingBottom: spacing.xxxl,
@@ -87,6 +170,9 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
     marginBottom: spacing.md,
   },
+  chatCardPressed: {
+    opacity: 0.86,
+  },
   avatar: {
     width: 48,
     height: 48,
@@ -114,9 +200,31 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
   },
+  status: {
+    marginTop: spacing.sm,
+    fontSize: 11,
+    fontWeight: '800',
+    color: colors.textSecondary,
+  },
+  rightInfo: {
+    alignItems: 'flex-end',
+    marginLeft: spacing.md,
+  },
   match: {
     fontSize: 12,
     fontWeight: '900',
     color: colors.primary,
+  },
+  deleteButton: {
+    marginTop: spacing.sm,
+    borderRadius: 999,
+    backgroundColor: '#FEE4E2',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+  },
+  deleteText: {
+    fontSize: 12,
+    fontWeight: '900',
+    color: '#D92D20',
   },
 });

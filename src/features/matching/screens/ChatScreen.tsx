@@ -15,6 +15,7 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 import {roommates} from '../data/roommates';
+import { useMatchContext } from '../../../store/MatchContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Chat'>;
 
@@ -33,7 +34,7 @@ const guidedQuestions = [
 
 export function ChatScreen({navigation, route}: Props): React.JSX.Element {
   const roommate = roommates.find(item => item.id === route.params.roommateId);
-
+  const {startChat, updateLastMessage, setAgreementDraft} = useMatchContext();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -63,6 +64,11 @@ export function ChatScreen({navigation, route}: Props): React.JSX.Element {
         text: finalText.trim(),
       },
     ]);
+
+     if (roommate) {
+      startChat(roommate.id, finalText.trim());
+      updateLastMessage(roommate.id, finalText.trim());
+    }
 
     setMessage('');
   };
@@ -130,15 +136,21 @@ export function ChatScreen({navigation, route}: Props): React.JSX.Element {
 
       <View style={styles.agreementShortcut}>
         <Text style={styles.agreementTitle}>Obrolan sudah cukup?</Text>
-        <Pressable
-          style={styles.agreementButton}
-          onPress={() =>
-            navigation.navigate('Agreement', {
-              roommateId: roommate.id,
-            })
-          }>
-          <Text style={styles.agreementButtonText}>Buat Agreement</Text>
-        </Pressable>
+          <Pressable
+            style={styles.agreementButton}
+            onPress={() => {
+              if (!roommate) {
+                return;
+              }
+
+              setAgreementDraft(roommate.id);
+
+              navigation.navigate('Agreement', {
+                roommateId: roommate.id,
+              });
+            }}>
+            <Text style={styles.agreementButtonText}>Buat Agreement</Text>
+          </Pressable>
       </View>
 
         <View style={styles.guidedSection}>
