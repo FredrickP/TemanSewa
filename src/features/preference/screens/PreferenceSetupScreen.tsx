@@ -1,28 +1,15 @@
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {AppTextInput} from '../../../components/AppTextInput';
 import {AppButton} from '../../../components/AppButton';
+import {AppTextInput} from '../../../components/AppTextInput';
+import {SelectChip} from '../../../components/SelectChip';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
-import { SelectChip } from '../../../components/SelectChip';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PreferenceSetup'>;
-
-const budgetOptions = [
-  'Di bawah 1 juta',
-  '1 - 2 juta',
-  '2 - 3 juta',
-  'Di atas 3 juta',
-];
 
 const locationOptions = [
   'Dekat kantor',
@@ -31,24 +18,31 @@ const locationOptions = [
   'Area bebas dipilih',
 ];
 
+const budgetOptions = [
+  'Di bawah 1 juta',
+  '1 - 2 juta',
+  '2 - 3 juta',
+  'Di atas 3 juta',
+];
+
 export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
   const [targetLocation, setTargetLocation] = useState('');
-  const [selectedBudget, setSelectedBudget] = useState('');
   const [selectedLocationType, setSelectedLocationType] = useState('');
+  const [selectedBudget, setSelectedBudget] = useState('');
 
   const isFormValid =
     targetLocation.trim().length > 0 &&
-    selectedBudget.length > 0 &&
-    selectedLocationType.length > 0;
+    selectedLocationType.length > 0 &&
+    selectedBudget.length > 0;
 
-    const handleContinue = () => {
+  const handleContinue = () => {
     console.log('Preference setup', {
-        targetLocation,
-        selectedBudget,
-        selectedLocationType,
+      targetLocation,
+      selectedLocationType,
+      selectedBudget,
     });
 
-  navigation.navigate('LifestylePreference');
+    navigation.navigate('LifestylePreference');
   };
 
   return (
@@ -56,7 +50,8 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled">
         <Text style={styles.step}>Langkah 1 dari 3</Text>
 
         <Text style={styles.title}>Cari roommate di area mana?</Text>
@@ -79,18 +74,14 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
           <Text style={styles.sectionTitle}>Prioritas lokasi</Text>
 
           <View style={styles.optionContainer}>
-            {locationOptions.map(item => {
-              const isSelected = selectedLocationType === item;
-
-              return (
-                <SelectChip
-                  key={item}
-                  label={item}
-                  selected={selectedLocationType === item}
-                  onPress={() => setSelectedLocationType(item)}
-                />
-              );
-            })}
+            {locationOptions.map(item => (
+              <SelectChip
+                key={`location-${item}`}
+                label={item}
+                selected={selectedLocationType === item}
+                onPress={() => setSelectedLocationType(item)}
+              />
+            ))}
           </View>
         </View>
 
@@ -98,18 +89,14 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
           <Text style={styles.sectionTitle}>Budget sewa per bulan</Text>
 
           <View style={styles.optionContainer}>
-            {budgetOptions.map(item => {
-              const isSelected = selectedBudget === item;
-
-              return (
-                <SelectChip
-                  key={item}
-                  label={item}
-                  selected={selectedLocationType === item}
-                  onPress={() => setSelectedLocationType(item)}
-                />
-              );
-            })}
+            {budgetOptions.map(item => (
+              <SelectChip
+                key={`budget-${item}`}
+                label={item}
+                selected={selectedBudget === item}
+                onPress={() => setSelectedBudget(item)}
+              />
+            ))}
           </View>
         </View>
 
@@ -144,7 +131,7 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.xl,
     paddingTop: spacing.xl,
-    paddingBottom: spacing.xxxl,
+    paddingBottom: 120,
   },
   step: {
     alignSelf: 'flex-start',
@@ -182,26 +169,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-  },
-  optionChip: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: 999,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  optionChipActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  optionText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.textSecondary,
-  },
-  optionTextActive: {
-    color: '#FFFFFF',
   },
   infoCard: {
     marginTop: spacing.xxl,
