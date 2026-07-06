@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-
+import {EmptyState} from '../../../components/EmptyState';
 import {MatchCard} from '../../matching/components/MatchCard';
 import {roommates} from '../../matching/data/roommates';
 import type {
@@ -56,13 +56,11 @@ export function SavedScreen({navigation}: Props): React.JSX.Element {
           />
         )}
         ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyIcon}>☆</Text>
-            <Text style={styles.emptyTitle}>Belum ada yang disimpan</Text>
-            <Text style={styles.emptyDescription}>
-              Tandai calon roommate dari Home agar muncul di halaman ini.
-            </Text>
-          </View>
+        <EmptyState
+            icon="☆"
+            title="Belum ada yang disimpan"
+            description="Tandai calon roommate dari Home agar muncul di halaman ini."
+        />
         }
       />
     </SafeAreaView>
@@ -93,29 +91,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: colors.textSecondary,
-  },
-  emptyState: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: spacing.xxxl,
-  },
-  emptyIcon: {
-    fontSize: 64,
-    fontWeight: '900',
-    color: colors.primary,
-    marginBottom: spacing.lg,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: '900',
-    color: colors.textPrimary,
-  },
-  emptyDescription: {
-    marginTop: spacing.sm,
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.textSecondary,
-    textAlign: 'center',
   },
 });

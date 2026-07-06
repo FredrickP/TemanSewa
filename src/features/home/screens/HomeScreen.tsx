@@ -1,7 +1,6 @@
 import React, {useMemo, useState} from 'react';
 import {
   FlatList,
-  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -11,9 +10,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {CompositeScreenProps} from '@react-navigation/native';
 import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-
+import {SelectChip} from '../../../components/SelectChip';
 import {MatchCard} from '../../matching/components/MatchCard';
 import {roommates} from '../../matching/data/roommates';
+import {EmptyState} from '../../../components/EmptyState';
 import type {
   MainTabParamList,
   RootStackParamList,
@@ -105,26 +105,13 @@ export function HomeScreen({navigation}: Props): React.JSX.Element {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.filterList}
-                renderItem={({item}) => {
-                  const isSelected = selectedBudget === item;
-
-                  return (
-                    <Pressable
-                      onPress={() => setSelectedBudget(item)}
-                      style={[
-                        styles.filterChip,
-                        isSelected && styles.filterChipActive,
-                      ]}>
-                      <Text
-                        style={[
-                          styles.filterText,
-                          isSelected && styles.filterTextActive,
-                        ]}>
-                        {item}
-                      </Text>
-                    </Pressable>
-                  );
-                }}
+                renderItem={({item}) => (
+                  <SelectChip
+                    label={item}
+                    selected={selectedBudget === item}
+                    onPress={() => setSelectedBudget(item)}
+                  />
+                )}
               />
             </View>
 
@@ -146,13 +133,11 @@ export function HomeScreen({navigation}: Props): React.JSX.Element {
           />
         )}
         ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyIcon}>🧐</Text>
-            <Text style={styles.emptyTitle}>Belum ada roommate cocok</Text>
-            <Text style={styles.emptyDescription}>
-              Coba ubah kata pencarian atau pilih budget lain.
-            </Text>
-          </View>
+          <EmptyState
+            icon="🧐"
+            title="Belum ada roommate cocok"
+            description="Coba ubah kata pencarian atau pilih budget lain."
+          />
         }
       />
     </SafeAreaView>
@@ -228,51 +213,10 @@ const styles = StyleSheet.create({
   filterList: {
     gap: spacing.sm,
   },
-  filterChip: {
-    borderRadius: 999,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-  },
-  filterChipActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  filterText: {
-    fontSize: 13,
-    fontWeight: '800',
-    color: colors.textSecondary,
-  },
-  filterTextActive: {
-    color: '#FFFFFF',
-  },
   resultText: {
     marginTop: spacing.lg,
     fontSize: 14,
     fontWeight: '800',
     color: colors.textSecondary,
-  },
-  emptyState: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: spacing.xxxl,
-  },
-  emptyIcon: {
-    fontSize: 48,
-    marginBottom: spacing.lg,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: '900',
-    color: colors.textPrimary,
-  },
-  emptyDescription: {
-    marginTop: spacing.sm,
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.textSecondary,
-    textAlign: 'center',
   },
 });

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {SelectChip} from '../../../components/SelectChip';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 
@@ -106,7 +106,7 @@ export function LifestylePreferenceScreen({
       </ScrollView>
 
       <View style={styles.footer}>
-        <PrimaryButton
+        <AppButton
           title="Lihat Rekomendasi"
           onPress={handleContinue}
           disabled={!isFormValid}
@@ -134,27 +134,14 @@ function OptionSection({
       <Text style={styles.sectionTitle}>{title}</Text>
 
       <View style={styles.optionContainer}>
-        {options.map(item => {
-          const isSelected = selectedValue === item;
-
-          return (
-            <Pressable
-              key={item}
-              onPress={() => onSelect(item)}
-              style={[
-                styles.optionChip,
-                isSelected && styles.optionChipActive,
-              ]}>
-              <Text
-                style={[
-                  styles.optionText,
-                  isSelected && styles.optionTextActive,
-                ]}>
-                {item}
-              </Text>
-            </Pressable>
-          );
-        })}
+        {options.map(item => (
+          <SelectChip
+            key={item}
+            label={item}
+            selected={selectedValue === item}
+            onPress={() => onSelect(item)}
+          />
+        ))}
       </View>
     </View>
   );
@@ -209,26 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.sm,
-  },
-  optionChip: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: 999,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  optionChipActive: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  optionText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.textSecondary,
-  },
-  optionTextActive: {
-    color: '#FFFFFF',
   },
   infoCard: {
     marginTop: spacing.xxl,

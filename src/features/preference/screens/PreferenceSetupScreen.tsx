@@ -10,9 +10,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {AppTextInput} from '../../../components/AppTextInput';
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
+import { SelectChip } from '../../../components/SelectChip';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'PreferenceSetup'>;
 
@@ -82,21 +83,12 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
               const isSelected = selectedLocationType === item;
 
               return (
-                <Pressable
+                <SelectChip
                   key={item}
+                  label={item}
+                  selected={selectedLocationType === item}
                   onPress={() => setSelectedLocationType(item)}
-                  style={[
-                    styles.optionChip,
-                    isSelected && styles.optionChipActive,
-                  ]}>
-                  <Text
-                    style={[
-                      styles.optionText,
-                      isSelected && styles.optionTextActive,
-                    ]}>
-                    {item}
-                  </Text>
-                </Pressable>
+                />
               );
             })}
           </View>
@@ -110,21 +102,12 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
               const isSelected = selectedBudget === item;
 
               return (
-                <Pressable
+                <SelectChip
                   key={item}
-                  onPress={() => setSelectedBudget(item)}
-                  style={[
-                    styles.optionChip,
-                    isSelected && styles.optionChipActive,
-                  ]}>
-                  <Text
-                    style={[
-                      styles.optionText,
-                      isSelected && styles.optionTextActive,
-                    ]}>
-                    {item}
-                  </Text>
-                </Pressable>
+                  label={item}
+                  selected={selectedLocationType === item}
+                  onPress={() => setSelectedLocationType(item)}
+                />
               );
             })}
           </View>
@@ -140,7 +123,7 @@ export function PreferenceSetupScreen({navigation}: Props): React.JSX.Element {
       </ScrollView>
 
       <View style={styles.footer}>
-        <PrimaryButton
+        <AppButton
           title="Lanjut"
           onPress={handleContinue}
           disabled={!isFormValid}

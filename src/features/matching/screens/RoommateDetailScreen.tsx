@@ -3,7 +3,8 @@ import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
+import {useMatchContext} from '../../../store/MatchContext';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 import {roommates} from '../data/roommates';
@@ -86,12 +87,12 @@ export function RoommateDetailScreen({
       </ScrollView>
 
       <View style={styles.footer}>
-        <PrimaryButton
+        <AppButton
             title="Mulai Chat"
             onPress={() =>
-                navigation.navigate('Chat', {
+            navigation.navigate('Chat', {
                 roommateId: roommate.id,
-                })
+            })
             }
         />
       </View>

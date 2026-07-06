@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {colors, spacing} from '../../../theme';
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AuthLanding'>;
@@ -24,7 +24,7 @@ export function AuthLandingScreen({navigation}: Props): React.JSX.Element {
       </View>
 
       <View style={styles.footer}>
-        <PrimaryButton
+        <AppButton
           title="Buat Akun"
           onPress={() => navigation.navigate('Register')}
         />

@@ -3,7 +3,7 @@ import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 import {roommates} from '../../matching/data/roommates';
@@ -158,11 +158,11 @@ export function AgreementScreen({
       </ScrollView>
 
       <View style={styles.footer}>
-        <PrimaryButton
-          title="Buat Agreement"
-          onPress={handleCreateAgreement}
-          disabled={selectedItems.length === 0}
-        />
+       <AppButton
+        title="Buat Agreement"
+        onPress={handleCreateAgreement}
+        disabled={selectedItems.length === 0}
+      />
       </View>
     </SafeAreaView>
   );

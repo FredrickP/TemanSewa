@@ -12,7 +12,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 import {AppTextInput} from '../../../components/AppTextInput';
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 
@@ -111,11 +111,11 @@ const handleRegister = () => {
         </ScrollView>
 
         <View style={styles.footer}>
-          <PrimaryButton
+          <AppButton
             title="Daftar"
             onPress={handleRegister}
             disabled={!isFormValid}
-          />
+          />s
 
           <View style={styles.loginRow}>
             <Text style={styles.loginText}>Sudah punya akun? </Text>

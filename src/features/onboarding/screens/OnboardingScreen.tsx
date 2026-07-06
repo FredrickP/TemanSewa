@@ -11,7 +11,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 
@@ -125,7 +125,7 @@ export function OnboardingScreen({navigation}: Props): React.JSX.Element {
           ))}
         </View>
 
-        <PrimaryButton
+        <AppButton
           title={isLastPage ? 'Mulai Sekarang' : 'Lanjut'}
           onPress={handleNext}
         />

@@ -5,13 +5,12 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {PrimaryButton} from '../../../components/PrimaryButton';
+import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 import {AppTextInput} from '../../../components/AppTextInput';
@@ -77,7 +76,7 @@ const handleLogin = () => {
         </View>
 
         <View style={styles.footer}>
-          <PrimaryButton
+          <AppButton
             title="Masuk"
             onPress={handleLogin}
             disabled={!isFormValid}
