@@ -7,6 +7,7 @@ import {AppButton} from '../../../components/AppButton';
 import type {RootStackParamList} from '../../../navigation/RootStackParamList';
 import {colors, spacing} from '../../../theme';
 import {roommates} from '../../matching/data/roommates';
+import { useMatchContext } from '../../../store/MatchContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Agreement'>;
 
@@ -66,14 +67,20 @@ export function AgreementScreen({
     );
   };
 
-  const handleCreateAgreement = () => {
-    console.log('Agreement created', {
-      roommateId: roommate?.id,
-      selectedItems,
-    });
+  const {setAgreementCreated} = useMatchContext();
 
-    navigation.replace('MainTabs');
-  };
+  const handleCreateAgreement = () => {
+  console.log('Agreement created', {
+    roommateId: roommate?.id,
+    selectedItems,
+  });
+
+  if (roommate) {
+    setAgreementCreated(roommate.id);
+  }
+
+  navigation.replace('MainTabs');
+};
 
   if (!roommate) {
     return (

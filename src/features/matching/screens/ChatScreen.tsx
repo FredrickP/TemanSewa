@@ -136,7 +136,7 @@ export function ChatScreen({navigation, route}: Props): React.JSX.Element {
 
       <View style={styles.agreementShortcut}>
         <Text style={styles.agreementTitle}>Obrolan sudah cukup?</Text>
-          <Pressable
+         <Pressable
             style={styles.agreementButton}
             onPress={() => {
               if (!roommate) {

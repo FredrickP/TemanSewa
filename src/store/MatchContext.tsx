@@ -80,9 +80,12 @@ export function MatchProvider({children}: Props): React.JSX.Element {
     );
   };
 
-  const setAgreementDraft = (roommateId: string) => {
-    setProgresses(prev =>
-      prev.map(item =>
+const setAgreementDraft = (roommateId: string) => {
+  setProgresses(prev => {
+    const exists = prev.find(item => item.roommateId === roommateId);
+
+    if (exists) {
+      return prev.map(item =>
         item.roommateId === roommateId
           ? {
               ...item,
@@ -90,13 +93,26 @@ export function MatchProvider({children}: Props): React.JSX.Element {
               lastMessage: 'Agreement draft sedang dibuat',
             }
           : item,
-      ),
-    );
-  };
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        roommateId,
+        status: 'Agreement Draft',
+        lastMessage: 'Agreement draft sedang dibuat',
+      },
+    ];
+  });
+};
 
   const setAgreementCreated = (roommateId: string) => {
-    setProgresses(prev =>
-      prev.map(item =>
+  setProgresses(prev => {
+    const exists = prev.find(item => item.roommateId === roommateId);
+
+    if (exists) {
+      return prev.map(item =>
         item.roommateId === roommateId
           ? {
               ...item,
@@ -104,9 +120,19 @@ export function MatchProvider({children}: Props): React.JSX.Element {
               lastMessage: 'Agreement berhasil dibuat',
             }
           : item,
-      ),
-    );
-  };
+      );
+    }
+
+    return [
+      ...prev,
+      {
+        roommateId,
+        status: 'Agreement Created',
+        lastMessage: 'Agreement berhasil dibuat',
+      },
+    ];
+  });
+};
 
   const deleteChat = (roommateId: string) => {
     setDeletedChatRoommateIds(prev => {
